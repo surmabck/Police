@@ -1,0 +1,250 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.view.menu.cases.caseDetails;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javafx.application.Platform.exit;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import model.cases.PoliceCase;
+import model.cases.PoliceCaseProperties;
+import model.cases.PoliceCaseState;
+import model.person.suspect.SuspectProperties;
+import model.person.witness.WitnessProperties;
+import pl.police.FrontController;
+import pl.police.Interfaces.gui.SetableDialog;
+import pl.police.MainApp;
+import pl.police.view.menu.cases.caseDetails.dialog.AddSuspectController;
+import pl.police.view.menu.cases.caseDetails.dialog.AddWitnessController;
+import pl.police.view.menu.cases.caseDetails.dialog.EditSuspectController;
+import pl.police.view.menu.cases.caseDetails.dialog.EditWitnessController;
+
+/**
+ * FXML Controller class
+ *
+ * @author Bartosz
+ */
+public class CaseDetailsController implements Initializable, SetableDialog {
+
+    private PoliceCaseProperties policeCase;
+    @FXML
+    private TableView<SuspectProperties> suspectTable;
+    @FXML
+    private TableColumn<SuspectProperties, String> firstSuspectNameColumn;
+    @FXML
+    private TableColumn<SuspectProperties, String> lastSuspectNameColumn;
+
+    @FXML
+    private TableView<WitnessProperties> victimTable;
+    @FXML
+    private TableColumn<WitnessProperties, String> firstVictimNameColumn;
+    @FXML
+    private TableColumn<WitnessProperties, String> lastVictimNameColumn;
+    private Stage stage;
+    @FXML
+    private TextField shortDescriptionField;
+    @FXML
+    private TextArea descriptionField;
+    @FXML
+    private Button addVictimButton;
+    @FXML
+    private Button showVictimButton;
+    @FXML
+    private Button deleteVictimButton;
+    @FXML
+    private Button addSuspectButton;
+    @FXML
+    private Button showSuspectButton;
+    @FXML
+    private Button deleteSuspectButton;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private ChoiceBox statusChoiceBox;
+    private PoliceCase caseModel;
+    private SuspectProperties currSuspect;
+    private WitnessProperties currVictim;
+
+    public CaseDetailsController() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/menu/cases/caseDetails/CaseDetails.fxml"));
+            Parent pane = null;
+            loader.setController(this);
+            pane = loader.load();
+            Scene scene = new Scene(pane);
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setScene(scene);
+            setDialog(dialogStage);
+        } catch (IOException ex) {
+            Logger.getLogger(CaseDetailsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        currSuspect = null;
+        currVictim = null;
+        firstSuspectNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+        lastSuspectNameColumn.setCellValueFactory(cellData -> cellData.getValue().getSurNameProperty());
+        suspectTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> setCurrSuspect(newValue));
+
+        firstVictimNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+        lastVictimNameColumn.setCellValueFactory(cellData -> cellData.getValue().getSurNameProperty());
+        victimTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> setCurrVictim(newValue));
+        statusChoiceBox.setItems(FXCollections.observableArrayList(
+                "W trakcie", "Zakończona",
+                "Zawieszona"));
+        statusChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+                String b = (String) statusChoiceBox.getItems().get((Integer) number2);
+                if (b.equals("W trakcie")) {
+                    policeCase.getState().set(PoliceCaseState.inProgress);
+                } else if (b.equals("Zakończona")) {
+                    policeCase.getState().set(PoliceCaseState.completed);
+
+                } else {
+                    policeCase.getState().set(PoliceCaseState.suspended);
+
+                }
+            }
+
+        });
+    }
+
+    public void setCurrSuspect(SuspectProperties newValue) {
+        this.currSuspect = newValue;
+    }
+
+    private void setCurrVictim(WitnessProperties newValue) {
+        this.currVictim = newValue;
+    }
+
+    public void buttonClicked(ActionEvent e) {
+        if (e.getSource() == cancelButton) {
+            System.out.println("1: " + caseModel);
+            System.out.println("2: " + policeCase.getModel());
+            this.policeCase.setModel(caseModel);
+            setStatus();
+            stage.close();
+
+        } else if (e.getSource() == saveButton) {
+            //TODO ZAPIS DO BAZY
+            stage.close();
+        } else if (e.getSource() == addVictimButton) {
+            WitnessProperties p = new WitnessProperties();
+            AddWitnessController controller = FrontController.getInstance().getAddWitnessController();
+            controller.setPerson(p);
+            controller.getStage().setTitle("Dodaj świadka");
+            controller.getStage().initOwner(stage);
+            controller.getStage().showAndWait();
+            if ((p != null) && (p.getId() != -1)) {
+                policeCase.getVictims().add(p);
+            }
+
+        } else if (e.getSource() == showVictimButton) {
+            if (currVictim != null) {
+                EditWitnessController controller = FrontController.getInstance().getEditWitnessController();
+                controller.setPerson(currVictim);
+                controller.getStage().setTitle("Edytuj świadka");
+                controller.getStage().showAndWait();
+            }
+
+        } else if (e.getSource() == deleteVictimButton) {
+
+        } else if (e.getSource() == addSuspectButton) {
+            SuspectProperties p = new SuspectProperties();
+            AddSuspectController controller = FrontController.getInstance().getAddSuspectController();
+            controller.setPerson(p);
+            controller.getStage().setTitle("Dodaj podejrzanego");
+            controller.getStage().showAndWait();
+            if ((p != null) && (p.getId() != -1)) {
+                policeCase.getSuspects().add(p);
+            }
+
+        } else if (e.getSource() == showSuspectButton) {
+            if (currSuspect != null) {
+                EditSuspectController controller = FrontController.getInstance().getEditSuspectController();
+                controller.setPerson(currSuspect);
+                controller.getStage().setTitle("Edytuj podejrzanego");
+                controller.getStage().showAndWait();
+            }
+
+        } else if (e.getSource() == deleteSuspectButton) {
+
+        }
+
+    }
+
+    public void setStatus() {
+        if (policeCase.getState().get() == PoliceCaseState.completed) {
+            statusChoiceBox.getSelectionModel().select("Zakończona");
+        } else if (policeCase.getState().get() == PoliceCaseState.inProgress) {
+            statusChoiceBox.getSelectionModel().select("W trakcie");
+        } else {
+            statusChoiceBox.getSelectionModel().select("Zawieszona");
+        }
+    }
+
+    public void setPoliceCase(PoliceCaseProperties p) {
+        this.policeCase = p;
+        caseModel = p.getModel();
+        victimTable.setItems(policeCase.getVictims());
+        suspectTable.setItems(policeCase.getSuspects());
+        setStatus();
+        shortDescriptionField.textProperty().bindBidirectional(policeCase.getDescription());
+        descriptionField.textProperty().bindBidirectional(policeCase.getLongDescription());
+
+    }
+
+    private void cancel() {
+
+    }
+
+    @Override
+    public void setMainApp(MainApp app) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setDialog(Stage stage) {
+        this.stage = stage;
+    }
+
+    @Override
+    public Stage getDialog() {
+        return stage;
+    }
+
+}

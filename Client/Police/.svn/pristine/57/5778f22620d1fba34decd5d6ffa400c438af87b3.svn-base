@@ -1,0 +1,39 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.view.peopleListGui.Dialog;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import pl.police.communication.ServerService;
+
+/**
+ * FXML Controller class
+ *
+ * @author Bartosz
+ */
+public class PersonEditDialogController extends DialogController {
+
+    public void initialize(URL url, ResourceBundle rb) {
+        setTitleLabel("Edytuj");
+    }
+
+    @Override
+    public void okClicked() {
+        if (isInputValid()) {
+            getPerson().setName(getNameLabel());
+            getPerson().setAge(Integer.parseInt(getAgeLabel()));
+            getPerson().setSurname(getSurnameLabel());
+            getPerson().getAddress().setApartment(getHouseLabel());
+            getPerson().getAddress().setCityName(getCityLabel());
+            getPerson().getAddress().setPostCode(getPostLabel());
+            getPerson().getAddress().setStreetName(getStreetLabel());
+            getPerson().setPhoneNumber(Integer.parseInt(getPhoneLabel()));
+            ServerService.getInstance().addPerson(getPerson().getModel());
+            exit();
+        }
+    }
+
+}

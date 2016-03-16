@@ -1,0 +1,141 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.communication;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import pl.police.FrontController;
+import pl.police.Interfaces.gui.CallBack;
+import pl.police.fascades.clientFascade.ClientFascadeImpl;
+import interfaces.messages.MessageToClient;
+import serializableMessage.toServer.ServerLogin;
+import interfaces.messages.MessageToServer;
+import serializableMessage.toServer.ServerAddPerson;
+import serializableMessage.toServer.ServerDeletePerson;
+import serializableMessage.toServer.ServerGetCases;
+import serializableMessage.toServer.ServerGetPeople;
+import pl.police.guiFactory.UserGuiFactory;
+import pl.police.guiFactory.Workers.WorkerFactory;
+import model.person.Person;
+import model.person.user.User;
+import pl.police.view.login.LoginOverviewController;
+
+public class ServerService {
+
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private int port;
+    private String serwer;
+    private static ServerService instance;
+    private boolean isConnected;
+    ExecutorService executor;
+
+    private ServerService() {
+        this.port = 2516;
+        this.serwer = "localhost";
+        init();
+    }
+
+    public static ServerService getInstance() {
+        if (instance == null) {
+            instance = new ServerService();
+            return instance;
+        } else {
+            return instance;
+        }
+    }
+
+    public void init() {
+        executor = Executors.newFixedThreadPool(4);
+    }
+
+    public void login(CallBack g) {
+        LoginOverviewController controller = (LoginOverviewController) g;
+        sendMessage(new ServerLogin(controller.getModel().getUser().getModel()), g);
+    }
+
+    public void getPeople(CallBack g) {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerGetPeople().setUser(u), g);
+    }
+
+    public void addPerson(Person p) {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerAddPerson().setPerson(p).setUser(u), (CallBack) FrontController.getInstance().getPeopleListController());
+    }
+
+    public void deletePerson(Person p) {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerDeletePerson().setPerson(p).setUser(u), (CallBack) FrontController.getInstance().getPeopleListController());
+    }
+    public void getCases()
+    {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerGetCases().setUser(u), (CallBack) FrontController.getInstance().getCasesListController());
+    }
+
+    private void sendMessage(MessageToServer message, CallBack g) {
+        ServerQuery worker = new ServerQuery();
+        worker.setMessage(message);
+        worker.setController(g);
+        executor.submit(worker);
+    }
+
+    public void stop() {
+        executor.shutdownNow();
+    }
+
+    class ServerQuery implements Runnable {
+
+        private MessageToServer mess;
+        private Socket mySocket;
+        private CallBack g;
+
+        public ServerQuery() {
+
+        }
+
+        public void setController(CallBack g) {
+            this.g = g;
+        }
+
+        public void setMessage(MessageToServer mess) {
+            this.mess = mess;
+        }
+
+        @Override
+        public void run() {
+            try {
+                mySocket = new Socket(serwer, port);
+                out = new ObjectOutputStream(mySocket.getOutputStream());
+                in = new ObjectInputStream(mySocket.getInputStream());
+                out.writeObject(mess);
+                MessageToClient m = (MessageToClient) in.readObject();
+                m.executeMessage(new ClientFascadeImpl());
+            } catch (IOException ex) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        WorkerFactory wf = new WorkerFactory();
+                        UserGuiFactory.getInstance().createGui(wf.createAlertDialog("Server is unreachable","Connection problem","Refused connection", null));
+                    }
+                });
+                Logger.getLogger(ServerService.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ServerService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+}

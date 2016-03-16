@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="background" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.police.view.menu.cases.caseDetails.CaseDetailsController">
+   <children>
+      <SplitPane dividerPositions="0.7" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+            <HBox>
+               <children>
+                  <VBox alignment="TOP_CENTER" styleClass="background">
+                     <children>
+                        <Label styleClass="label-header" text="Poszkodowani" textAlignment="CENTER">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="victimTable" prefWidth="200.0">
+                          <columns>
+                            <TableColumn fx:id="firstVictimNameColumn" prefWidth="75.0" text="Imie " />
+                            <TableColumn fx:id="lastVictimNameColumn" prefWidth="75.0" text="Nazwisko" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <HBox>
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="common-button" text="Wyswiet">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="9.0" />
+                                 </font>
+                              </Button>
+                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="common-button" text="Usun">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" styleClass="background">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label-header" text="Podejrzani" textAlignment="CENTER">
+                           <font>
+                              <Font size="28.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="suspectTable" prefWidth="200.0">
+                          <columns>
+                            <TableColumn fx:id="firstSuspectNameColumn" prefWidth="75.0" text="Imie" />
+                            <TableColumn fx:id="lastSuspectNameColumn" prefWidth="75.0" text="Nazwisko" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="common-button" text="Button">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="common-button" text="Button">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label styleClass="label-bright" text="Status:">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label styleClass="label-bright" text="Opis:" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="status sprawy" GridPane.columnIndex="1" />
+                  <Label text="opis sprawy" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </items>
+      </SplitPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../../MainCss.css" />
+      <URL value="@../../../peopleListGui/PeopleList.css" />
+   </stylesheets>
+</AnchorPane>

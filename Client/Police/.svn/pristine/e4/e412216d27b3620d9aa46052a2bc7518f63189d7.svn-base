@@ -1,0 +1,70 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.view.menu.cases.caseDetails;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.stage.Stage;
+import model.cases.PoliceCaseProperties;
+import model.person.PersonProperties;
+import model.person.suspect.SuspectProperties;
+import model.person.witness.WitnessProperties;
+
+/**
+ * FXML Controller class
+ *
+ * @author Bartosz
+ */
+public class CaseDetailsController implements Initializable {
+
+    private PoliceCaseProperties policeCase;
+    private Stage dialogStage;
+    @FXML
+    private TableView<SuspectProperties> suspectTable;
+    @FXML
+    private TableColumn<SuspectProperties, String> firstSuspectNameColumn;
+    @FXML
+    private TableColumn<SuspectProperties, String> lastSuspectNameColumn;
+
+    @FXML
+    private TableView<WitnessProperties> victimTable;
+    @FXML
+    private TableColumn<WitnessProperties, String> firstVictimNameColumn;
+    @FXML
+    private TableColumn<WitnessProperties, String> lastVictimNameColumn;
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        firstSuspectNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+        lastSuspectNameColumn.setCellValueFactory(cellData -> cellData.getValue().getSurNameProperty());
+       // personTable.getSelectionModel().selectedItemProperty().addListener(
+        //    (observable, oldValue, newValue) -> showPersonDetails(newValue));
+
+        firstVictimNameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+        lastVictimNameColumn.setCellValueFactory(cellData -> cellData.getValue().getSurNameProperty());
+      //  personTable.getSelectionModel().selectedItemProperty().addListener(
+              //  (observable, oldValue, newValue) -> showPersonDetails(newValue));
+    }
+
+    public void setPoliceCase(PoliceCaseProperties p) {
+        this.policeCase = p;
+        System.out.println(p.getModel());
+        victimTable.setItems(policeCase.getVictims());
+        suspectTable.setItems(policeCase.getSuspects());
+    }
+
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+
+}

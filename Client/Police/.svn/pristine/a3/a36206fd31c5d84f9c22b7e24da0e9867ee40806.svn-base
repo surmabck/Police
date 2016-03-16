@@ -1,0 +1,80 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police;
+
+import pl.police.view.menu.cases.CasesListController;
+import pl.police.view.login.LoginOverviewController;
+import pl.police.view.menu.MenuController;
+import pl.police.view.menu.cases.caseDetails.CaseDetailsController;
+import pl.police.view.peopleListGui.PeopleListController;
+
+/**
+ *
+ * @author Bartosz
+ */
+public class FrontController {
+
+    private LoginOverviewController loginController;
+    private PeopleListController peopleListController;
+    private MenuController menuController;
+    private static FrontController instance;
+    private CasesListController casesListController;
+    private CaseDetailsController caseDetailsController;
+
+    private FrontController() {
+
+    }
+
+    public static FrontController getInstance() {
+        if (instance == null) {
+            instance = new FrontController();
+            return instance;
+        }
+        return instance;
+    }
+
+    public LoginOverviewController getLoginController() {
+        return loginController;
+    }
+
+    public void setLoginController(LoginOverviewController loginController) {
+        this.loginController = loginController;
+    }
+
+    public PeopleListController getPeopleListController() {
+        return peopleListController;
+    }
+
+    public void setPeopleSearchController(PeopleListController searchController) {
+        this.peopleListController = searchController;
+    }
+
+    public MenuController getMenuController() {
+        return menuController;
+    }
+
+    public void setMenuController(MenuController menuController) {
+        this.menuController = menuController;
+    }
+
+    public void setCasesListController(CasesListController casesListController) {
+        this.casesListController = casesListController;
+    }
+
+    public CasesListController getCasesListController() {
+        return casesListController;
+    }
+
+    public CaseDetailsController getCaseDetailsController() {
+        return caseDetailsController;
+    }
+
+    public void setCaseDetailsController(CaseDetailsController caseDetailsController) {
+        this.caseDetailsController = caseDetailsController;
+    }
+    
+
+}

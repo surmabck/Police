@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="670.0" styleClass="background" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.4" focusTraversable="false" prefHeight="560.0" prefWidth="670.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+            <ScrollPane prefHeight="558.0" prefWidth="319.0">
+               <content>
+                  <VBox styleClass="background">
+                     <children>
+                        <TextField>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <TableView fx:id="personTable" prefHeight="507.0" prefWidth="351.0" styleClass="background">
+                          <columns>
+                            <TableColumn fx:id="firstNameColumn" prefWidth="121.0" text="Imie" />
+                            <TableColumn fx:id="lastNameColumn" prefWidth="119.0" text="Nazwisko" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+            <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;">
+              <content>
+                <AnchorPane maxHeight="1000.0" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="557.0" prefWidth="399.0">
+                     <children>
+                        <Label layoutX="30.0" layoutY="7.0" prefHeight="17.0" prefWidth="152.0" styleClass="label-header" text="Dane">
+                           <font>
+                              <Font name="BatangChe" size="48.0" />
+                           </font></Label>
+                        <GridPane layoutX="27.0" layoutY="92.0" prefHeight="353.0" prefWidth="348.0" AnchorPane.bottomAnchor="112.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="92.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="152.0" minWidth="10.0" prefWidth="148.0" />
+                              <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="200.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label styleClass="label-bright" text="Imię">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font></Label>
+                              <Label styleClass="label-bright" text="Nazwisko" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font></Label>
+                              <Label styleClass="label-bright" text="Wiek" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font></Label>
+                              <Label styleClass="label-bright" text="Miasto" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font></Label>
+                              <Label styleClass="label-bright" text="Ulica" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font></Label>
+                              <Label styleClass="label-bright" text="Nr lokalu" GridPane.rowIndex="5">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font></Label>
+                              <Label styleClass="label-bright" text="Kod pocztowy" GridPane.rowIndex="6">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font></Label>
+                              <Label styleClass="label-bright" text="Telefon" GridPane.rowIndex="7">
+                                 <font>
+                                    <Font size="21.0" />
+                                 </font></Label>
+                              <Label fx:id="nameLabel" styleClass="label-bright" GridPane.columnIndex="1" />
+                              <Label fx:id="surnameLabel" styleClass="label-bright" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="ageLabel" styleClass="label-bright" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="cityLabel" styleClass="label-bright" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="streetLabel" styleClass="label-bright" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="houseLabel" styleClass="label-bright" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Label fx:id="postLabel" styleClass="label-bright" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Label fx:id="phoneLabel" styleClass="label-bright" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                           </children>
+                        </GridPane>
+                        <Button fx:id="createButton" alignment="BOTTOM_LEFT" layoutX="27.0" layoutY="504.0" mnemonicParsing="false" onAction="#createButtonHandle" styleClass="common-button" text="Nowy" AnchorPane.bottomAnchor="60.0" />
+                        <Button fx:id="editButton" layoutX="138.0" layoutY="504.0" mnemonicParsing="false" onAction="#editButtonHandle" styleClass="common-button" text="Edytuj" AnchorPane.bottomAnchor="60.0" />
+                        <Button fx:id="deleteButton" layoutX="251.0" layoutY="504.0" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#deleteButtonHandle" styleClass="common-button" text="Usuń" AnchorPane.bottomAnchor="60.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+        </items>
+      </SplitPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../MainCss.css" />
+      <URL value="@PeopleList.css" />
+   </stylesheets>
+</AnchorPane>

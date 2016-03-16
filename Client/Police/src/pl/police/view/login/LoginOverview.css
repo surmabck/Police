@@ -1,0 +1,77 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2015-11-25, 13:58:54
+    Author     : Bartosz
+*/
+
+
+.label {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 0.6;
+}
+.login-frame{
+    -fx-background-color: #3d3d3d;
+    -fx-border-style:solid;
+    -fx-border-width:5;
+    -fx-border-color: #e2e2e2;
+    -fx-border-width: 2;
+    -fx-effect:dropshadow(three-pass-box ,   #000000, 20, 0.2, 0, 2);
+}
+.label-bright {
+    -fx-font-size: 18pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+.message-box {
+    -fx-border-color: linear-gradient(to right, #606060 1%,#000000 45%,#000000 58%,#606060 100%);
+    -fx-border-width: 2 0 2 0;
+    -fx-width:500;
+    -fx-height:50;
+    -fx-margin:25 0 0 0;
+}
+.police-hat {
+    -fx-background-image:url("/pl/police/resources/police.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size: 400 200;
+}
+.label-header {
+    -fx-font-size: 24pt;
+    -fx-font-family: "Arial Black";
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+    -fx-effect: innershadow( three-pass-box ,#999999 , 6, 0.0 , 0 , 2 );
+
+}
+
+.text-field {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-opacity:1;
+    -fx-background-radius:0 5 5 0;
+
+}
+.field-icon{
+    -fx-background-color:#1d1d1d;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center center;
+    -fx-background-size:25 25;
+    -fx-background-radius:5 0 0 5;
+    -fx-border-width: 2 0 2 2;
+    -fx-border-color: #e2e2e2;
+    -fx-border-radius: 5 0 0 5;
+}
+.text-field-icon {
+    -fx-background-image:url("/pl/police/resources/user2.png");
+}
+.password-field-icon {
+    -fx-background-image:url("/pl/police/resources/password2.png");
+}
+

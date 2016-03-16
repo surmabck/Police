@@ -1,0 +1,42 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2015-12-05, 12:08:26
+    Author     : Bartosz
+*/
+
+.left-menu {
+    -fx-background-color:transparent;
+}
+.VBox{
+    -fx-background-color:transparent;
+
+}
+.left-menu:focused{
+    -fx-border-color:none;
+}
+.leftMenu-button {
+    -fx-background-color:transparent;
+    -fx-padding:50;
+}
+.leftMenu-button:hover {
+    -fx-background-color:rgba(125,125,125,100);
+}
+.sButton {
+    -fx-graphic:url("/pl/police/resources/managePerson.png");
+}
+.pButton {
+    -fx-graphic:url("/pl/police/resources/main.png");
+}
+.cButton {
+    -fx-graphic:url("/pl/police/resources/manageCase.png");
+}
+.mainButton {
+    
+}
+.settingsButton{
+    -fx-graphic:url("/pl/police/resources/settings.png");
+}

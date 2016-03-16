@@ -1,0 +1,68 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.guiFactory.Workers;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import pl.police.FrontController;
+import pl.police.MainApp;
+import model.cases.PoliceCaseProperties;
+import pl.police.view.menu.cases.caseDetails.CaseDetailsController;
+import pl.police.view.peopleListGui.Dialog.DialogController;
+
+/**
+ *
+ * @author Bartosz
+ */
+public class CaseDetailsDialog extends Worker {
+
+    private PoliceCaseProperties p;
+
+    public CaseDetailsDialog(String windowName, PoliceCaseProperties p, MainApp app, Stage stage) {
+        super(app);
+        setName(windowName);
+        this.p = p;
+        this.stage = stage;
+    }
+
+    @Override
+    protected String call() throws Exception {
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                setLoaderLocation("view/menu/cases/caseDetails/CaseDetails.fxml");
+                Parent pane = null;
+                try {
+                    pane = load();
+                } catch (IOException ex) {
+                    Logger.getLogger(CaseDetailsDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Scene scene = new Scene(pane);
+                Stage dialogStage = new Stage();
+                dialogStage.setTitle(getName());
+                dialogStage.initModality(Modality.WINDOW_MODAL);
+                dialogStage.initOwner(stage);
+              //  dialogStage.setResizable(false);
+                dialogStage.setScene(scene);
+                CaseDetailsController controller = (CaseDetailsController) getController();
+                FrontController.getInstance().setCaseDetailsController(controller);
+                controller.setDialogStage(dialogStage);
+                controller.setPoliceCase(p);
+                dialogStage.showAndWait();
+            }
+        });
+
+        return "Created";
+    }
+
+}

@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.view.menu;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import pl.police.MainApp;
+import pl.police.Interfaces.gui.CallBack;
+import pl.police.Interfaces.gui.SetableGui;
+import pl.police.guiFactory.UserGuiFactory;
+import pl.police.guiFactory.Workers.WorkerFactory;
+import pl.police.model.UserModel;
+
+/**
+ * FXML Controller class
+ *
+ * @author Bartosz
+ */
+public class MenuController implements Initializable, SetableGui, CallBack {
+
+    private UserModel model;
+    @FXML
+    private Button searchButton;
+    @FXML
+    private Button manageCasesButton;
+    @FXML
+    private Button managePersonsButton;
+    private MainApp mainApp;
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+    }
+
+    public void buttonClicked(ActionEvent e) throws IOException {
+        WorkerFactory wf = new WorkerFactory();
+        if (searchButton == e.getSource()) {
+            UserGuiFactory.getInstance().createGui(wf.createPeopleListWorker(mainApp, (BorderPane) searchButton.getScene().getRoot()));
+        }
+        if (manageCasesButton == e.getSource()) {
+            UserGuiFactory.getInstance().createGui(wf.createCasesListWorker(mainApp, (BorderPane) manageCasesButton.getScene().getRoot()));
+        }
+
+    }
+
+    @Override
+    public void setMainApp(MainApp app) {
+        this.mainApp = app;
+    }
+
+    public SetableGui getController() {
+        return this;
+    }
+
+    public UserModel getModel() {
+        return model;
+    }
+
+    public void setModel(UserModel model) {
+        this.model = model;
+    }
+}

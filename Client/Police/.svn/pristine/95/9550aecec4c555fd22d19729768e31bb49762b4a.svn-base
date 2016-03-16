@@ -1,0 +1,82 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.view.login;
+
+import pl.police.Interfaces.gui.guiFactory.GuiCreator;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import pl.police.Interfaces.gui.CallBack;
+import pl.police.Interfaces.gui.SetableGui;
+import pl.police.MainApp;
+import pl.police.communication.ServerService;
+import pl.police.guiFactory.*;
+import pl.police.guiFactory.Workers.WorkerFactory;
+import pl.police.model.UserModel;
+import model.person.user.UserProperties;
+
+/**
+ * FXML Controller class
+ *
+ * @author Bartosz
+ */
+public class LoginOverviewController implements Initializable, SetableGui, CallBack {
+    @FXML
+    private Button btn;
+    @FXML
+    private TextField loginField;
+    @FXML
+    private PasswordField passwordField;
+    private UserModel model;
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        UserProperties user = new UserProperties("", "");
+        model = new UserModel();
+        model.setUser(user);
+    }
+
+    public void buttonClicked(ActionEvent e) throws IOException {
+        if (btn == e.getSource()) {
+            model.getUser().setLogin(loginField.getText());
+            model.getUser().setPassword(passwordField.getText());
+            ServerService.getInstance().login(this);
+        }
+    }
+
+    public void login() {
+        WorkerFactory wf = new WorkerFactory();
+        GuiCreator factory = UserGuiFactory.getInstance();
+        factory.createGui(wf.createMenuWorker((Stage) btn.getScene().getWindow(), mainApp));
+    }
+
+    @Override
+    public void setMainApp(MainApp app) {
+        this.mainApp = app;
+    }
+    private MainApp mainApp;
+
+    public SetableGui getController() {
+        return this;
+    }
+    public UserModel getModel() {
+        return model;
+    }
+    public void setModel(UserModel model) {
+        this.model = model;
+    }
+
+}

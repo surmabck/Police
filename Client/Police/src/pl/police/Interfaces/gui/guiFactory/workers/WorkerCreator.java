@@ -1,0 +1,29 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.Interfaces.gui.guiFactory.workers;
+
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import pl.police.MainApp;
+import model.cases.PoliceCaseProperties;
+import model.person.PersonProperties;
+import pl.police.guiFactory.Workers.AlertDialog;
+import pl.police.guiFactory.Workers.CasesListWorker;
+import pl.police.guiFactory.Workers.DialogWorker;
+
+import pl.police.guiFactory.Workers.PeopleListWorker;
+
+/**
+ *
+ * @author Bartosz
+ */
+public interface WorkerCreator {
+    PeopleListWorker createPeopleListWorker(MainApp app,BorderPane myPane);
+    DialogWorker createDialog(String windowName, PersonProperties p, MainApp app,Stage stage);
+    AlertDialog createAlertDialog(String errorMessage, String headerMessage,String windowName, Stage stage,AlertType type);
+    CasesListWorker createCasesListWorker(MainApp app, BorderPane myPane);
+}

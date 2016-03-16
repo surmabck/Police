@@ -1,0 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.guiFactory.Workers;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
+import pl.police.FrontController;
+import pl.police.Interfaces.gui.Setable;
+import pl.police.MainApp;
+import pl.police.view.menu.cases.CasesListController;
+
+/**
+ *
+ * @author Bartosz
+ */
+public class CasesListWorker extends Worker {
+
+    private final BorderPane myPane;
+
+    public CasesListWorker(MainApp app, BorderPane myPane) {
+        super(app);
+        setName("CasesList");
+        this.myPane = myPane;
+    }
+
+    @Override
+    protected String call() throws Exception {
+        Platform.runLater(() -> {
+            try {
+                setLoaderLocation("/pl/police/view/menu/cases/CasesList.fxml");
+                Parent parent = load();
+                FrontController.getInstance().setCasesListController((CasesListController) getController());
+                Setable n = (Setable) getController();
+                n.setMainApp(getApp());
+                myPane.setCenter(parent);
+            } catch (IOException ex) {
+                Logger.getLogger(CasesListWorker.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        return "Created";
+    }
+
+}

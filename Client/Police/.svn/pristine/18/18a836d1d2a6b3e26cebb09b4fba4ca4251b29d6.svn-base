@@ -1,0 +1,5 @@
+#myClient
+server.name=localhost
+server.port=2516
+server.refresh=100
+server.caret=>

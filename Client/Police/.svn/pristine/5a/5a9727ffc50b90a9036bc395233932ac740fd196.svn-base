@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="440.0" maxWidth="600.0" prefHeight="440.0" prefWidth="600.0" styleClass="background" stylesheets="@../../../../MainCss.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane layoutX="-3.0" layoutY="-3.0" maxHeight="440.0" maxWidth="600.0" prefHeight="440.0" prefWidth="600.0" stylesheets="@../CaseDetails.css">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="317.0" minWidth="10.0" prefWidth="311.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="390.0" minWidth="10.0" prefWidth="289.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label prefWidth="300.0" styleClass="label-bright" text="Nazwisko" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Label prefWidth="300.0" styleClass="label-bright" text="Wiek" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Label prefWidth="300.0" styleClass="label-bright" text="Miasto" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Label prefWidth="300.0" styleClass="label-bright" text="Ulica" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Label alignment="BOTTOM_LEFT" prefWidth="300.0" styleClass="label-bright" text="Nr lokalu" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Label prefWidth="300.0" styleClass="label-bright" text="Kod pocztowy" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Label alignment="TOP_LEFT" prefWidth="300.0" styleClass="label-bright" text="Telefon" textOverrun="CLIP" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="300.0" styleClass="label-bright" text="Imię" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="nameLabel" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="surnameLabel" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="ageLabel" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="cityLabel" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="streetLabel" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="houseLabel" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="postLabel" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <TextField fx:id="phoneLabel" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label fx:id="titleLabel" styleClass="label-header" text="Edytuj" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </GridPane.margin>
+            </Label>
+            <HBox alignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="11" GridPane.valignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#okClicked" styleClass="common-button" text="Zapisz" textAlignment="CENTER">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#resetClicked" styleClass="common-button" text="Resetuj">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#cancelClicked" styleClass="common-button" text="Anuluj">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </HBox>
+            <TextField fx:id="credibilityField" GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label prefWidth="300.0" styleClass="label-bright" text="Wiarygoność[%]" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <Label prefWidth="300.0" styleClass="label-bright" text="Liczba spraw przeciwko" GridPane.halignment="RIGHT" GridPane.rowIndex="10">
+               <opaqueInsets>
+                  <Insets left="30.0" />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="amountOfCasesAgainstField" layoutX="351.0" layoutY="354.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
+               <GridPane.margin>
+                  <Insets left="30.0" right="30.0" />
+               </GridPane.margin>
+            </TextField>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.net.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" prefHeight="600.0" prefWidth="800.0" styleClass="background" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.police.view.menu.MenuController">
+   <top>
+      <MenuBar maxHeight="40.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <ScrollPane blendMode="SRC_ATOP" cache="true" cacheHint="SCALE" cacheShape="false" focusTraversable="false" maxHeight="-Infinity" maxWidth="130.0" minHeight="0.0" minWidth="0.0" pickOnBounds="false" styleClass="left-menu">
+         <content>
+            <VBox fillWidth="false" maxWidth="130.0" minHeight="0.0" minWidth="0.0" spacing="10.0" style="-fx-background-color: transparent;">
+               <children>
+                  <Button fx:id="searchButton" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="50.0" prefWidth="100.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <styleClass>
+                        <String fx:value="leftMenu-button" />
+                        <String fx:value="sButton" />
+                     </styleClass>
+                  </Button>
+                  <Button fx:id="manageCasesButton" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="50.0" prefWidth="100.0">
+                     <styleClass>
+                        <String fx:value="leftMenu-button" />
+                        <String fx:value="cButton" />
+                     </styleClass>
+                  </Button>
+                  <Button minHeight="50.0" minWidth="100.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0">
+                     <styleClass>
+                        <String fx:value="leftMenu-button" />
+                        <String fx:value="pButton" />
+                     </styleClass>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </left>
+   <stylesheets>
+      <URL value="@Menu.css" />
+      <URL value="@../MainCss.css" />
+   </stylesheets>
+</BorderPane>

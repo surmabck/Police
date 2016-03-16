@@ -1,0 +1,26 @@
+package interfaces.fascades;
+
+import model.cases.PoliceCase;
+import model.person.Person;
+import model.person.user.User;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+/**
+ *
+ * @author Bartosz
+ */
+public interface ServerFascade {
+    public void login(User user);
+    public void getPeople(User user);
+    public void addPerson(User user,Person p);
+    public void deletePerson(User user,Person p);
+    public void getCases(User user);
+    public void updateCase(User user,PoliceCase policeCase);
+    public void addCase(User user, PoliceCase policeCase);
+}

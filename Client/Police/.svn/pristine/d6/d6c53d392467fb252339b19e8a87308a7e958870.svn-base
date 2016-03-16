@@ -1,0 +1,109 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.view.menu.cases;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.beans.property.IntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.stage.Stage;
+import pl.police.Interfaces.gui.CallBack;
+import pl.police.Interfaces.gui.SetableGui;
+
+import pl.police.MainApp;
+import pl.police.guiFactory.UserGuiFactory;
+import pl.police.guiFactory.Workers.WorkerFactory;
+import pl.police.model.CasesModel;
+import pl.police.model.SearchModel;
+import model.cases.PoliceCaseProperties;
+import model.cases.PoliceCaseState;
+import model.person.PersonProperties;
+
+/**
+ * FXML Controller class
+ *
+ * @author Bartosz
+ */
+public class CasesListController implements Initializable, SetableGui, CallBack {
+
+    private MainApp mainApp;
+    private CasesModel model;
+    private PoliceCaseProperties currCase;
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        generateChart(0, 0, 0);
+        charte.setTitle("Rozkład proawdzonych spraw");
+        charte.setClockwise(false);
+        model = new CasesModel();
+        idColumn.setCellValueFactory(cellData -> cellData.getValue().getId().asObject());
+        descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().getDescription());
+        statusColumn.setCellValueFactory(cellData -> cellData.getValue().getState());
+        casesTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> setCurrCase(newValue));
+
+    }
+
+    public void setItems() {
+        casesTable.setItems(model.getCases());
+    }
+    private void setCurrCase(PoliceCaseProperties curr) {
+        this.currCase = curr;
+    }
+    public void setMainApp(MainApp app) {
+        this.mainApp = app;
+    }
+
+    public MainApp getMainApp() {
+        return mainApp;
+    }
+
+    public void showButtonClicked() {
+        WorkerFactory wf = new WorkerFactory();
+        UserGuiFactory.getInstance().createGui(wf.createCaseDetailDialog("Case Details", currCase, mainApp,(Stage) showButton.getScene().getWindow()));
+    }
+
+    public void generateChart(int completed, int inProgress, int suspended) {
+        charte.setData(FXCollections.observableArrayList(
+                new PieChart.Data("Completed", completed),
+                new PieChart.Data("In progress", inProgress),
+                new PieChart.Data("Suspended", suspended)));
+    }
+
+    public CasesModel getModel() {
+        return model;
+    }
+
+    public void setModel(CasesModel model) {
+        this.model = model;
+    }
+
+    @FXML
+    private Button showButton;
+    @FXML
+    private PieChart charte;
+    @FXML
+    private TableView<PoliceCaseProperties> casesTable;
+    @FXML
+    private TableColumn<PoliceCaseProperties, Integer> idColumn;
+    @FXML
+    private TableColumn<PoliceCaseProperties, String> descriptionColumn;
+    @FXML
+    private TableColumn<PoliceCaseProperties, PoliceCaseState> statusColumn;
+
+
+
+}

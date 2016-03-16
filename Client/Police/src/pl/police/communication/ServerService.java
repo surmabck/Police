@@ -1,0 +1,192 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pl.police.communication;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import pl.police.FrontController;
+import pl.police.Interfaces.gui.CallBack;
+import pl.police.fascades.clientFascade.ClientFascadeImpl;
+import interfaces.messages.MessageToClient;
+import serializableMessage.toServer.ServerLogin;
+import interfaces.messages.MessageToServer;
+import javafx.scene.control.Alert;
+import model.cases.PoliceCase;
+import model.cases.PoliceCaseProperties;
+import serializableMessage.toServer.ServerAddPerson;
+import serializableMessage.toServer.ServerDeletePerson;
+import serializableMessage.toServer.ServerGetCases;
+import serializableMessage.toServer.ServerGetPeople;
+import pl.police.guiFactory.UserGuiFactory;
+import pl.police.guiFactory.Workers.WorkerFactory;
+import model.person.Person;
+import model.person.user.User;
+import pl.police.view.login.LoginOverviewController;
+import pl.police.view.menu.main.MainWindowController;
+import serializableMessage.toServer.HearthBeatMessage;
+import serializableMessage.toServer.ServerAddCase;
+import serializableMessage.toServer.ServerUpdateCase;
+
+public class ServerService {
+
+    private int port;
+    private String serwer;
+    private static ServerService instance;
+    ExecutorService executor;
+
+    private ServerService() {
+
+        String serverName = FrontController.getInstance().getSettingsController().getServerName();
+        String serverPort = FrontController.getInstance().getSettingsController().getServerPort();
+        this.port = Integer.parseInt(serverPort);
+        this.serwer = serverName;
+        init();
+
+    }
+
+    public static ServerService getInstance() {
+        if (instance == null) {
+            instance = new ServerService();
+            return instance;
+        } else {
+            return instance;
+        }
+    }
+
+    public void init() {
+        executor = Executors.newFixedThreadPool(4);
+    }
+
+    public void login(CallBack g) {
+        LoginOverviewController controller = (LoginOverviewController) g;
+        sendMessage(new ServerLogin(controller.getModel().getUser().getModel()));
+    }
+
+    public void getPeople(CallBack g) {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerGetPeople().setUser(u));
+    }
+
+    public void addPerson(Person p) {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerAddPerson().setPerson(p).setUser(u));
+    }
+
+    public void deletePerson(Person p) {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerDeletePerson().setPerson(p).setUser(u));
+    }
+
+    public void getCases() {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerGetCases().setUser(u));
+    }
+
+    private void sendMessage(MessageToServer message) {
+        ServerQuery worker = new ServerQuery();
+        worker.setMessage(message);
+        executor.submit(worker);
+    }
+
+    public void stop() {
+        executor.shutdownNow();
+    }
+
+    public void addCase(PoliceCase p) {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerAddCase().setUser(u).setCase(p));
+    }
+
+    public void updateCase(PoliceCase currCase) {
+        User u = FrontController.getInstance().getLoginController().getModel().getUser().getModel();
+        sendMessage(new ServerUpdateCase().setUser(u).setCase(currCase));
+    }
+
+    public void hearthBeatProtocol() {
+        sendMessage(new HearthBeatMessage());
+    }
+
+    class ServerQuery implements Runnable {
+
+        private MessageToServer mess;
+        private Socket mySocket;
+        private CallBack g;
+        private ObjectInputStream in;
+        private ObjectOutputStream out;
+        private MainWindowController messageBox = FrontController.getInstance().getMainWindowController();
+
+        public ServerQuery() {
+            try {
+                mySocket = new Socket(serwer, port);
+            } catch (IOException ex) {
+                WorkerFactory wf = new WorkerFactory();
+                UserGuiFactory.getInstance().createGui(
+                        wf.createAlertDialog(
+                                "Server is probably down", 
+                                "Connection problem", 
+                                "Refused connection", 
+                                null,
+                                Alert.AlertType.ERROR));
+            }
+        }
+
+        public void setController(CallBack g) {
+            this.g = g;
+        }
+
+        public void setMessage(MessageToServer mess) {
+            this.mess = mess;
+            messageBox.writeMessage(mess.toString());
+
+        }
+
+        @Override
+        public void run() {
+            try {
+                out = new ObjectOutputStream(mySocket.getOutputStream());
+                in = new ObjectInputStream(mySocket.getInputStream());
+                out.writeObject(mess);
+                MessageToClient m = (MessageToClient) in.readObject();
+                m.executeMessage(new ClientFascadeImpl());
+            } catch (IOException ex) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        WorkerFactory wf = new WorkerFactory();
+                        UserGuiFactory.getInstance().createGui(
+                                wf.createAlertDialog(
+                                        "Client - server communication problem", 
+                                        "Connection problem", 
+                                        "Refused connection", 
+                                        null,
+                                        Alert.AlertType.ERROR));
+                    }
+                });
+                Logger.getLogger(ServerService.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ServerService.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    in.close();
+                    out.close();
+                    mySocket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+
+    }
+
+}

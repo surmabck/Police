@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="768.0" maxWidth="1366.0" minHeight="560.0" minWidth="400.0" styleClass="background" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.police.view.login.LoginOverviewController">
+   <center>
+      <GridPane hgap="5.0" maxHeight="234.0" maxWidth="400.0" minHeight="203.0" minWidth="330.0" prefHeight="210.0" prefWidth="341.0" styleClass="login-frame" vgap="5.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+          <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="110.0" right="110.0" top="20.0" />
+         </BorderPane.margin>
+         <children>
+            <Label alignment="TOP_LEFT" styleClass="label-header" text="Login" textOverrun="CLIP" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="75.0" />
+               </GridPane.margin>
+            </Label>
+            <Button fx:id="btn" minWidth="50.0" mnemonicParsing="false" onAction="#buttonClicked" prefWidth="240.0" styleClass="common-button" text="Submit" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="75.0" right="75.0" />
+               </GridPane.margin>
+            </Button>
+            <HBox GridPane.rowIndex="1">
+               <children>
+                  <Pane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0">
+                     <HBox.margin>
+                        <Insets left="75.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="text-field-icon" />
+                        <String fx:value="field-icon" />
+                     </styleClass>
+                  </Pane>
+                  <TextField fx:id="loginField" minWidth="150.0" prefHeight="40.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets right="75.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox minWidth="190.0" prefWidth="240.0" GridPane.rowIndex="2">
+               <children>
+                  <Pane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0">
+                     <HBox.margin>
+                        <Insets left="75.0" />
+                     </HBox.margin>
+                     <styleClass>
+                        <String fx:value="password-field-icon" />
+                        <String fx:value="field-icon" />
+                     </styleClass>
+                  </Pane>
+                  <PasswordField fx:id="passwordField" minWidth="150.0" prefHeight="40.0" prefWidth="200.0">
+                     <HBox.margin>
+                        <Insets right="75.0" />
+                     </HBox.margin>
+                  </PasswordField>
+               </children>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </HBox>
+         </children>
+      </GridPane>
+   </center>
+   <bottom>
+      <TextFlow minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="500.0" styleClass="message-box" textAlignment="CENTER" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="500.0" text="Projekt Inżyniera Programowania. Bartosz Surma, Rafał Nowak, Maciej Stradomski, Marcin Religa. Temat: Policja" textAlignment="CENTER" wrapText="true">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </BorderPane.margin>
+         <opaqueInsets>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+         </opaqueInsets>
+      </TextFlow>
+   </bottom>
+   <top>
+      <Pane maxHeight="200.0" minHeight="200.0" minWidth="400.0" styleClass="police-hat" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="80.0" />
+         </BorderPane.margin>
+      </Pane>
+   </top>
+   <stylesheets>
+      <URL value="@LoginOverview.css" />
+      <URL value="@../MainCss.css" />
+   </stylesheets>
+</BorderPane>
